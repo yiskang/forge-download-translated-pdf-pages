@@ -1,0 +1,17 @@
+{
+  "name": "forge-download-pdf-bim360-plans",
+  "version": "1.0.0",
+  "description": "This sample demonstrates how to download PDF pages and thumbnails of a PDF file stored in BIM360 Docs Plans folder by its derivative URN.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "yiskang <eason.kang@autodesk.com>",
+  "license": "MIT",
+  "dependencies": {
+    "forge-apis": "^0.8.6",
+    "mkdirp": "^1.0.4"
+  }
+}
