@@ -168,14 +168,16 @@ namespace Autodesk
 
             string versionDerivativeId = null;
 
-            if (version.data.attributes.extension.data != null && !string.IsNullOrWhiteSpace(version.data.attributes.extension.data.viewableGuid))
+            var attributesData = new DynamicDictionaryItems(version.data.attributes.extension.data);
+            var checkViewableGuid = attributesData.Cast<KeyValuePair<string, dynamic>>().Select(d => d.Key).Any(d => d == "viewableGuid");
+
+            if (version.data.attributes.extension.data != null && checkViewableGuid && !string.IsNullOrWhiteSpace(version.data.attributes.extension.data.viewableGuid))
             {
-                //var seedVersionUrn = await getVersionRefAsync(projectId, versionId, AccessToken);
-                versionDerivativeId = await GetVersionRefDerivativeUrnAsync(projectId, versionId, AccessToken);
+                versionDerivativeId = await GetVersionRefDerivativeUrnAsync(projectId, versionId, credentials);
             }
             else
             {
-                versionDerivativeId = (version.relationships != null && version.relationships.derivatives != null ? version.relationships.derivatives.data.id : null);
+                versionDerivativeId = (version.data.relationships != null && version.data.relationships.derivatives != null ? version.data.relationships.derivatives.data.id : null);
             }
 
             return versionDerivativeId;
@@ -317,7 +319,7 @@ namespace Autodesk
 
             // if (!Directory.Exists(folderPath))
             if (Directory.Exists(folderPath)) Directory.Delete(folderPath, true);
-                Directory.CreateDirectory(folderPath);
+            Directory.CreateDirectory(folderPath);
 
             foreach (var page in pages)
             {
